@@ -63,8 +63,8 @@ if target_column in dfFinalTest:
     mae = mean_absolute_error(y_final_actual, predictions)
     r2 = r2_score(y_final_actual, predictions)
 
-    print(f"📌 Final Test Data Evaluation:")
-    print(f"✅ RMSE: {rmse:.4f},  MAE: {mae:.4f}, R² Score: {r2:.4f}")
+    print(f"- Final Test Data Evaluation:")
+    print(f"- RMSE: {rmse:.4f},  MAE: {mae:.4f}, R² Score: {r2:.4f}")
 
 
 # --- Build a results DataFrame keyed by row_id ---
@@ -82,6 +82,6 @@ if target_column in dfFinalTest.columns:
 df_final = df_results.merge(df_raw, on='row_id', how='left')
 
 # --- Save the fully-joined table ---
-output_filename = './QS_Prediction/QS_Predictions.csv'
+output_filename = './QS_Predictions.csv'
 df_final.to_csv(output_filename, index=False)
-print(f"✅ Saved predictions plus original raw columns to {output_filename}")
+print(f"Saved predictions plus original raw columns to {output_filename}")
