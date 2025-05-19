@@ -13,7 +13,7 @@ column_names = [
     "InventoryQuantityChange", "InventoryIssueStatus", "InventoryReceiptStatus"
 ]
 
-data = pd.read_csv("DataExported.csv", header=None, names=column_names)
+data = pd.read_csv("./DataExported.csv", header=None, names=column_names)
 print("[Step 1] Data loaded and columns renamed successfully!")
 
 # Step 2: Drop unneeded columns (Group 1)
@@ -131,6 +131,6 @@ data_fe['row_id'] = np.arange(len(data_fe))
 
 
 # Step 9: Save final DataFrame
-output_path = 'DataSalesPurchaseFeatured.csv'
+output_path = './DataSalesPurchaseFeatured.csv'
 data_fe.to_csv(output_path, index=False)
 print(f"[Step 7] Processed data saved to {output_path}!")

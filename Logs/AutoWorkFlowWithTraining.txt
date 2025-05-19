@@ -1,0 +1,95 @@
+== Started  at 05/19/2025 17:47:21 ==
+Pre-trait data started...
+Pre-trait Data executed successfully: 
+[Step 1] Data loaded and columns renamed successfully!
+[Step 2] Group 1 columns dropped!
+[Step 3] Missing values handled!
+[Step 4] Outliers removed!
+[Step 5] Duplicates dropped!
+[Step 6] Feature engineering applied!
+[Step 7] Processed data saved to ./DataSalesPurchaseFeatured.csv!
+Starting QS Data Trait Subflow...
+QS Subflow executed successfully :
+----> Starting the script of QS Prediction...
+----> Data loaded successfully!
+----> Data encoded successfully!
+----> Data cleaned and columns dropped successfully!
+----> Date features added !
+Training data date range: 2015-01-01 00:00:00 to 2018-07-27 00:00:00
+Validation data date range: 2018-07-27 00:00:00 to 2019-07-26 00:00:00
+Test data date range: 2019-07-26 00:00:00 to 2019-12-31 00:00:00
+Features used for modeling: ['SalesPrice', 'TotalSalesAmount', 'QuantityPurchased', 'InventoryCostPosted', 'InventoryQuantityChange', 'OrderToDeliveryDays', 'CreditUtilizationRatio', 'InventoryEfficiency', 'SaleYear', 'SaleMonth', 'SaleQuarter', 'SaleDayOfWeek', 'SaleWeekOfMonth', 'CustomerID', 'CustomerCreditRating', 'CustomerGroup', 'DeliveryMode', 'ProductID', 'VendorID', 'SaleIsWeekend']
+----> Scaler saved successfully!
+
+X_train shape: (264959, 20), y_train shape: (264959,)
+X_val shape: (75702, 20), y_val shape: (75702,)
+X_test shape: (37853, 20), y_test shape: (37853,)
+----> Scaling complete. Data ready for predictive modeling !
+----> Training LightGBM Model...
+Training until validation scores don't improve for 100 rounds
+Did not meet early stopping. Best iteration is:
+[100]	train's rmse: 0.546361	valid's rmse: 0.544898
+----> Model training complete !
+Validation R-¦=0.9988, Adjusted R-¦=0.9988, RMSE=0.54, MAE=0.39
+Test R-¦=0.9988, Adjusted R-¦=0.9988, RMSE=0.54, MAE=0.39
+----> Mod+¿le enregistr+¬ sous : ./Meta/QS_Prediction/QS_lightgbm_model.pkl
+----> Pr+¬dictions QS completed !
+- Final Test Data Evaluation:
+- RMSE: 13.2506,  MAE: 11.3972, R-¦ Score: 0.2770
+---->> Saved predictions plus original raw columns to ./Results/QS_Prediction/QS_Predictions.csv
+Starting QP Subflow...
+QP Subflow executed successfully:
+----> Starting the script of QP Prediction...
+---->  Data Loaded and cleaned successfully !
+Dropped 16 columns. Remaining columns: 21
+----> Columns were deleted successfully!
+----> Generation Date completed !
+----> Splitting Data...
+Target column statistics:
+Average QuantityPurchased: 241.39
+Max QuantityPurchased: 1000.0
+Min QuantityPurchased: 0.0
+----> Features used for modeling: ['CustomerID', 'CustomerCreditRating', 'CustomerGroup', 'DeliveryMode', 'ProductID', 'SalesPrice', 'TotalSalesAmount', 'PurchaseStatus', 'VendorID', 'InventoryCostPosted', 'InventoryQuantityChange', 'DeliveryMonth', 'DeliveryDayOfWeek', 'PurchaseYear', 'PurchaseMonth', 'PurchaseDayOfWeek', 'OrderToDeliveryDays', 'InventoryEfficiency', 'CreditUtilizationRatio', 'row_id', 'PurchaseQuarter', 'PurchaseIsWeekend', 'PurchaseWeekOfMonth']
+----> Scaling completed successfully !
+----> Scaler saved as ./Meta/QP_Prediction/QP_Scaler.pkl
+----> Training Random Forest Regressor...
+Random Forest Model Evaluation on Validation Set:
+Val   R¦: 0.9923 | Val   RMSE: 24.45 | Val   MAE: 9.56
+Mean QuantityPurchased (train): 242.45 | Std Dev: 278.66
+Random Forest Model Evaluation on Test Set :
+Test R¦: 0.9910 | Test RMSE: 26.33 |Test MAE: 9.83
+Mean QuantityPurchased (train): 241.08 | Std Dev: 278.20
+Random Forest Performance Metrics:
+Test R¦: 0.9910 | Test RMSE: 26.33 |Test MAE: 9.83
+----> Final RF model saved to ./Meta/QP_Prediction/QP_Prediction_RFmodel.pkl
+----> All results of QP Prediction saved to: ./Results/QP_Prediction/QP_Results.csv
+Starting InvEff Subflow...
+InvEff Subflow executed successfully:
+----> Starting the script of InvEff Prediction...
+----> Loading data...
+Data loaded. Shape: (415600, 43)
+----> Dropping initial unnecessary columns...
+----> Sorting and removing duplicates...
+----> Checking and treating missing values...
+----> Encoding variables...
+----> Computing correlations with target...
+----> Dropping highly correlated and redundant columns...
+----> Generating synthetic purchase dates...
+----> Sorting Data...
+Data sorted by: ProductID, Purchase_date
+----> Splitting Data.....
+Data sorted chronologically.
+Train set time range: 2015/1 to 2018/7
+Validation set time range: 2018/7 to 2019/7
+Test set time range: 2019/7 to 2019/12
+External test set time range: 2020/1 to 2020/12
+----> Preparing feature...
+----> Scaler saved successfully!
+----> Feature engineering completed !
+----> Model training....
+----> Evaluation sur le jeu de TEST :
+R-¦ Score (Test): 0.9993, MAE (Test): 0.1169, RMSE (Test): 0.2379
+----> Mod+¿le enregistr+¬ sous : ./Meta/InventEff_Prediction/InvEff_GB_model.pkl
+----> Saving Predictions file....
+----> Saved predictions plus original raw columns to ./Results/InventEff_Prediction/InvEff_Predictions.csv
+*** Main Flow Completed successfully  at 5/19/2025 5:50:02 PM ! ***
